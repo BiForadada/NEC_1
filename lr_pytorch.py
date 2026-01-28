@@ -21,16 +21,14 @@ y_train_tensor = torch.from_numpy(y_train_val)
 X_test_tensor = torch.from_numpy(X_test)
 
 # Define the neural network structure
-# I chose a simple structure similar to the simple implementation
+# I chose the structure with the best results at the baseline implementation
 class BP_F_Network(nn.Module):
     def __init__(self, input_dim):
-        super(BP_F_Network, self).__init__()
+        super().__init__()
         self.model = nn.Sequential(
             nn.Linear(input_dim, 64),
             nn.ReLU(),
-            nn.Linear(64, 32),
-            nn.ReLU(),
-            nn.Linear(32, 1)
+            nn.Linear(64, 1)
         )
         
     def forward(self, x):
@@ -44,7 +42,7 @@ criterion = nn.MSELoss()
 optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
 
 # Training the neural network
-epochs = 100
+epochs = 500
 print("Starting BP-F Training...")
 for epoch in range(epochs):
     model.train()

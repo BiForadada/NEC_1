@@ -105,11 +105,15 @@ class NeuralNet:
             delta_w = (-learning_rate * grad_w) + (self.mu * self.d_w_prev[i])
             delta_theta = (-learning_rate * grad_theta) + (self.mu * self.d_theta_prev[i])
             
-            # 4. Apply the change to weights and thresholds
+            # Clip the deltas so that it does not overflow with big errors (mostly at the start of training rounds)
+            delta_w = np.clip(delta_w, -1, 1)
+            delta_theta = np.clip(delta_theta, -1, 1)
+
+            # Apply the changes to the weights and thresholds
             self.w[i] += delta_w
             self.theta[i] += delta_theta
             
-            # 5. Store the changes for the next step (update d_w_prev)
+            # Store the changes for the next step
             self.d_w_prev[i] = delta_w
             self.d_theta_prev[i] = delta_theta
             
